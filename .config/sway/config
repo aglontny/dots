@@ -1,0 +1,169 @@
+include ~/.cache/wal/colors-sway
+
+set $mod Mod4
+
+# direction
+set $left h
+set $down j
+set $up k
+set $right l
+
+# terminal
+set $term foot
+
+# launcher
+set $menu dmenu_path | bemenu | xargs swaymsg exec --
+
+output * {
+	bg $wallpaper fill
+	render_bit_depth 8
+    }
+
+input "type:touchpad" {
+	tap enabled
+	natural_scroll enabled
+	accel_profile adaptive
+	dwt enabled
+	events disabled_on_external_mouse
+	pointer_accel 0.1
+    }
+
+seat "seat0" hide_cursor when-typing enabled
+
+input "type:keyboard" {
+	repeat_delay 400
+	repeat_rate 40
+    }
+
+xwayland enable
+
+# Bindings
+
+# Brightness
+    bindsym XF86MonBrightnessDown exec brightnessctl set 1%-
+    bindsym XF86MonBrightnessUp exec brightnessctl set 1%+
+    bindsym Shift+u exec brightnessctl set +5%
+    bindsym Shift+d exec brightnessctl set 5%-
+
+# Basics:
+
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+Shift+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec $menu
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit?' -B 'Yes' 'swaymsg exit'
+
+# Moving around:
+
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+
+# Workspaces:
+
+    # Switch to workspace
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
+    bindsym $mod+0 workspace number 10
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10
+
+# default configuration
+	default_border pixel 3
+	gaps inner 10
+	workspace_auto_back_and_forth yes
+
+# set alpha value for zathura
+for_window [app_id="zathura"] opacity 0.75
+
+client.focused $color14 $color3 $color3 $color1
+
+# Layout stuff:
+    # split direction
+    bindsym $mod+e layout toggle split
+    bindsym KP_End exec zathura ~/others/books/tgpl.pdf
+    bindsym KP_Down exec zathura ~/others/books/syllabus.pdf
+
+    # layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+
+    # fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+
+# Scratchpad:
+    # send to sp
+    bindsym $mod+Shift+minus move scratchpad
+
+    # cycle sp
+    bindsym $mod+minus scratchpad show
+
+# Resizing
+mode "resize" {
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+# Status Bar:
+bar {
+    position top
+    font "JetBrains Mono Ultra-Bold 11"
+
+    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+
+    colors {
+        statusline $color1
+	background #32323200
+        inactive_workspace #32323200 #32323200 $color1
+	focused_workspace #11111100 $color3 $foreground
+    }
+}
+

@@ -1,0 +1,10 @@
+set n-completion-items 10
+set font "JetBrains Mono bold 10"
+set recolor true
+set statusbar-page-percent true
+set statusbar-home-tilde true
+set scroll-step 50
+set page-padding 0
+set index-bg "#000000"
+set index-active-bg "#005555"
+set index-active-fg "#FFFFFF"
